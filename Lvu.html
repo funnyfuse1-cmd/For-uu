@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Will You Be My Girlfriend?</title>
+<style>
+html,body{
+  margin:0; padding:0; width:100%; height:100%;
+  overflow:hidden; font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#fceabb,#f8b500);
+  display:flex; justify-content:center; align-items:center;
+}
+.card{
+  width:100%; height:100%; background:rgba(255,255,255,0.95);
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  position:relative; overflow:hidden; padding:30px; box-sizing:border-box;
+}
+h1{color:#c2185b; font-size:3em; margin:20px 0; text-align:center;}
+p{color:#6d1a3c; font-size:1.2em; text-align:center;}
+button{padding:16px 36px; border:none; border-radius:30px; font-size:20px; cursor:pointer; margin:10px;}
+.yes{background:#c2185b;color:white;}
+.no{background:#f48fb1;}
+#stage2,#stage3,#stage4{display:none;}
+.moveBg{animation:moveBg 0.8s;}
+@keyframes moveBg{0%{background-position:center;}100%{background-position:top right;}}
+.heart-bg{position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden;}
+.heart-bg span{position:absolute; font-size:40px; color:#f06292; animation:floatHeart linear infinite;}
+@keyframes floatHeart{0%{transform:translateY(110vh) rotate(0deg);}100%{transform:translateY(-10vh) rotate(360deg);}}
+.secret{width:160px; height:100px; background:#c2185b; color:white; border-radius:25px; display:flex; justify-content:center; align-items:center; margin:25px auto; font-size:20px; cursor:pointer;}
+.couple{width:200px; height:200px; position:relative;}
+.couple::before,.couple::after{content:"👩‍❤️‍👨"; position:absolute; font-size:100px; animation:floatCouple 2s ease-in-out infinite alternate;}
+.couple::after{animation-delay:1s;}
+@keyframes floatCouple{0%{transform:translateY(0);}50%{transform:translateY(-20px);}100%{transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="heart-bg" id="hearts"></div>
+<div id="stage1">
+<h1>Will you be my girlfriend? 💖</h1>
+<p>Follow your heart</p>
+<button class="yes" onclick="yesClick()">YES 💕</button>
+<button class="no" onmouseover="noHover()">NO 🙈</button>
+</div>
+<div id="stage2">
+<h1>Just for you ❤️</h1>
+<p id="message"></p>
+<div class="secret" onclick="openSecret()">🎁 Open Secret</div>
+</div>
+<div id="stage3">
+<div class="couple"></div>
+<p>From this moment… 💌</p>
+<audio id="music" autoplay>
+<source src="https://cdn.pixabay.com/audio/2022/10/03/audio_946c9c6b94.mp3" type="audio/mpeg">
+</audio>
+</div>
+<div id="stage4">
+<h1>I love you forever ❤️</h1>
+</div>
+</div>
+<script>
+// floating hearts
+for(let i=0;i<30;i++){
+  let span=document.createElement("span");
+  span.innerText="❤️";
+  span.style.left=Math.random()*100+"%";
+  span.style.animationDuration=5+Math.random()*5+"s";
+  span.style.fontSize=20+Math.random()*40+"px";
+  document.getElementById("hearts").appendChild(span);
+}
+// NO hover
+function noHover(){document.body.classList.add("moveBg"); setTimeout(()=>document.body.classList.remove("moveBg"),800);}
+// YES click
+function yesClick(){document.getElementById("stage1").style.display="none"; document.getElementById("stage2").style.display="block"; typeMessage();}
+// typewriter
+let i=0;
+let message="I didn’t plan this.\nI didn’t force this.\nMy heart just chose you.\nAnd I hope you’ll choose me too.";
+function typeMessage(){if(i<message.length){document.getElementById("message").innerHTML += message[i]=="\n"? "<br>":message[i]; i++; setTimeout(typeMessage,55);}}
+// Secret box
+function openSecret(){document.getElementById("stage2").style.display="none"; document.getElementById("stage3").style.display="block"; document.getElementById("music").play(); setTimeout(()=>{document.getElementById("stage3").style.display="none"; document.getElementById("stage4").style.display="block";},7000);}
+</script>
+</body>
+</html>
